@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+      http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+      http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<import resource="classpath:properties.xml"/> 
+		
+
+	<!-- error handler fuer die queue
+	<beans:bean id="amqpErrorHandler" class="de.buch.pim.sapexporter.QueueErrorHandler" />
+	<beans:bean id="objectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>  -->
+    
+
+	<bean class="de.buch.pim.standardschnittstelle.config.QueueConfigBean">
+		<property name="standardschnittstelleQueueName" value="${queue.name}" />
+		<property name="queueUser" value="${queue.user}" />
+		<property name="queuePass" value="${queue.pass}" />
+		<property name="queueHost" value="${queue.host}" />
+		<property name="queuePort" value="${queue.port}" />
+		<property name="errorQueueName" value="${queue.error}" />
+	</bean>
+
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+	<!-- <property name="messageConverters" ref="marshallingHttpMessageConverter">
+		</property>  -->
+	</bean>  
+	
+</beans>

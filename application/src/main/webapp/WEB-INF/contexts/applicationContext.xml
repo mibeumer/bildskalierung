@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<context:annotation-config />
+	
+	<context:component-scan base-package="de.buch.shop.bildskalierung" />
+	
+	<context:property-placeholder
+		location="${de.buch.shop.bildskalierung.config.path}/de.buch.shop.bildskalierung-config.properties" />
+
+	<bean id="clusterInformation" class="de.buch.commons.utils.api.rest.server.util.ClusterInformation" />
+
+<bean class="de.buch.shop.bildskalierung.backend.config.ConfigBean">
+    <property name="imagePath" value="${image.path}" />
+</bean>
+
+<bean id="config" class="org.gm4java.engine.support.GMConnectionPoolConfig">
+    <property name="maxActive" value="${gm4java.maxActive}" />
+    <property name="maxIdle" value="${gm4java.maxIdle}" />
+    <property name="maxWait" value="${gm4java.maxWait}" />
+    <property name="GMPath" value="${gm4java.gmPath}" />
+</bean>
+
+<bean id="gmService" name="gmService" class="org.gm4java.engine.support.PooledGMService">
+    <constructor-arg><ref bean="config"/></constructor-arg>    
+</bean>
+
+</beans>

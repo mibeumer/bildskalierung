@@ -1,0 +1,103 @@
+body a:visited, body a:active, body a:link {
+	background-color: transparent;
+	color: black;
+}
+
+body a:hover {
+	background-color: transparent;
+	color: #FE6349;
+}
+
+body {
+	text-align: center;
+
+}
+
+#background {
+	width: 800px;
+	margin: 0 auto;
+	border: 1px solid black;
+	-moz-box-shadow: 0 0 10px 10px #888;
+	-webkit-box-shadow: 0 0 10px 10px #888;
+	box-shadow: 0 0 10px 10px #888;
+}
+
+#header {
+	width: 800px;
+	height: 78px;
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.06, white),
+		color-stop(0.77, #E5D4B6) );
+	background-image: -moz-linear-gradient(center bottom, white 6%, #E5D4B6 77%);
+	border-bottom: 1px solid black;
+}
+
+#header_logo {
+	position: relative;
+	width: 180px;
+	padding-top: 20px;
+	padding-left: 20px;
+	height: 50px;
+	z-index: 0;
+	float: left;
+}
+
+#header_ueberschrift {
+	position: relative;
+	width: 600px;
+	height: 58px;
+	z-index: 0;
+	float:right;
+	font-size:2.5em;
+	padding-top: 20px;
+	color: #6C6861
+}
+
+#breadcrumb {
+	width: 400px;
+	height: 30px;
+	float: left;
+}
+
+#breadcrumb_inhalt {
+	text-align: left;
+	padding-left: 30px;
+	padding-top: 6px;
+	border: none;
+	height: 100%;
+}
+
+#content {
+	padding: 10px;
+	float: right;
+	text-align: left;
+	width: 776px;
+	min-height: 400px;
+	margin-left: 2px;
+	margin-right: 2px;
+	background-color: #E8D9BC;
+}
+
+#vorlagen_table td {
+	padding: 10px;
+}
+
+#content_inhalt {
+	overflow:auto;
+}
+
+#content_inhalt table td {
+	padding-left: 20px;
+}
+
+#footer {
+	clear: both;
+
+	text-align: center;
+	height: 20px;
+	width: 800px;
+	border-top: 1px dotted black;
+}
+
+fieldset {
+	border: 1px dotted black;
+}

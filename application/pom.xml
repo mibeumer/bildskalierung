@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.buch.shop.bildskalierung</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0.4-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>application</artifactId>
+    <packaging>war</packaging>
+    <name>de.buch.shop.bildskalierung - Application</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Setting to force eclipse to omit the version number in the local 
+            tomcat installation. -->
+        <m2eclipse.wtp.contextRoot>/${project.groupId}.application</m2eclipse.wtp.contextRoot>
+        <!-- Target directory for installation artifacts from RPMs. -->
+        <rpm.install.dir>/usr/share/shop_bildskalierung/artifacts</rpm.install.dir>
+        <rpm.webapps.dir>/usr/share/shop_bildskalierung/webapps</rpm.webapps.dir>
+    </properties>
+
+    <build>
+        <finalName>${project.groupId}.${project.artifactId}-${project.version}</finalName>
+    </build>
+
+    <dependencies>
+            <!-- Subproject -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>backend</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- File-Upload und buffern der Files -->  
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <!-- Internal dependencies -->
+        <dependency>
+            <groupId>de.buch.commons</groupId>
+            <artifactId>bde-utils</artifactId>
+        </dependency>
+
+        <!-- spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+        </dependency>
+
+        <!-- dependency injection -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+
+        <!-- json -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-xc</artifactId>
+        </dependency>
+
+        <!-- Bean Validation -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+        <!-- persistence -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+        </dependency>
+
+        <!-- third party -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <profiles>
+
+        <profile>
+
+            <id>Build-Application-RPM</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                    <name>Linux</name>
+                </os>
+            </activation>
+
+            <build>
+                <plugins>
+                    <!-- Creates an RPM and attaches it as secondary artefact. -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>rpm-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>attached-rpm</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <copyright>2012, buch.de internetstores AG</copyright>
+                            <group>Application</group>
+                            <needarch>x86_64</needarch>
+                            <name>${project.groupId}.${project.artifactId}</name>
+                            <mappings>
+                                <!-- Creates required directories. -->
+                                <mapping>
+                                    <directory>${rpm.install.dir}</directory>
+                                    <filemode>755</filemode>
+                                    <username>tomcat</username>
+                                    <groupname>tomcat</groupname>
+                                </mapping>
+                                <mapping>
+                                    <directory>${rpm.install.dir}/${project.groupId}</directory>
+                                    <filemode>755</filemode>
+                                    <username>tomcat</username>
+                                    <groupname>tomcat</groupname>
+                                </mapping>
+                                <mapping>
+                                    <directory>${rpm.install.dir}/${project.groupId}/${project.artifactId}</directory>
+                                    <filemode>755</filemode>
+                                    <username>tomcat</username>
+                                    <groupname>tomcat</groupname>
+                                </mapping>
+                                <!-- Copies the .war file to the destination 
+                                    directory. -->
+                                <mapping>
+                                    <directory>${rpm.install.dir}/${project.groupId}/${project.artifactId}</directory>
+                                    <filemode>755</filemode>
+                                    <username>tomcat</username>
+                                    <groupname>tomcat</groupname>
+                                    <sources>
+                                        <source>
+                                            <location>
+                                                target/${project.groupId}.${project.artifactId}-${project.version}.war
+                                            </location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <!-- Creates a symbolic link from the .war 
+                                    file into the webapps directory. -->
+                                <mapping>
+                                    <directory>${rpm.webapps.dir}</directory>
+                                    <filemode>644</filemode>
+                                    <username>tomcat</username>
+                                    <groupname>tomcat</groupname>
+                                    <sources>
+                                        <softlinkSource>
+                                            <location>
+                                                ${rpm.install.dir}/${project.groupId}/${project.artifactId}/${project.groupId}.${project.artifactId}-${project.version}.war
+                                            </location>
+                                            <destination>${project.groupId}.${project.artifactId}.war</destination>
+                                        </softlinkSource>
+                                    </sources>
+                                </mapping>
+                            </mappings>
+                            <postinstallScriptlet>
+                                <scriptFile>src/main/resources/rpm-scripts/postinstall.sh</scriptFile>
+                                <fileEncoding>utf-8</fileEncoding>
+                            </postinstallScriptlet>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+    </profiles>
+
+</project>

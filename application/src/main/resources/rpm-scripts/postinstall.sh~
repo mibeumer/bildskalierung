@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Delete the unpacked war directory if it exists:
+WEBAPP_DIR=/usr/share/[TODO_TOMCAT_INSTANZ_EINTRAGEN]/webapps/de.buch.shop.bildskalierung.application
+
+if [ -d "$WEBAPP_DIR" ]; then
+  rm -rf $WEBAPP_DIR
+fi
